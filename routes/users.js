@@ -1,24 +1,5 @@
 var express = require("express");
 var router = express.Router();
-const {
-  getHTML,
-  getPigCameHomeMenu,
-  getRanchoCameHomeMenu
-} = require("../modules-utils/lib/scraper");
-const { db } = require("../modules-utils/lib/db");
-const {
-  getStringDate,
-  daysOfWeek,
-  findOpenRestaurants,
-  getRandomIndex,
-  returnItemsForSuggestion
-} = require("../modules-utils/lib/helper");
-
-const pigFoodora =
-  "https://www.foodora.ca/restaurant/s1jc/when-the-pig-came-home";
-
-const tacoFoodora = "https://www.foodora.ca/chain/cs4gd/rancho-relaxo";
-const pig = "https://www.whenthepigcamehome.ca/menu";
 
 /* GET users listing. */
 router.get("/", function(req, res, next) {
@@ -35,6 +16,7 @@ router.get("/", function(req, res, next) {
     };
 
     res.setHeader("Content-Type", "application/json");
+    res.send(JSON.stringify(lunchData));
   } else {
     res.status(403).end();
   }
