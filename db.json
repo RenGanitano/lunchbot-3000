@@ -1,0 +1,67 @@
+{
+  "restaurants": [
+    {
+      "name": "When the Pig Came Home",
+      "categories": [
+        {
+          "title": "Sandwiches",
+          "items": [
+            "Peameal on a Bun",
+            "Smoked Meat Sandwich",
+            "Porchetta Sandwich",
+            "Philly Cheesesteak Sandwich",
+            "Jerk Chicken Sandwich with Slaw",
+            "Korean Sweet N Sour BBQ"
+          ]
+        },
+        {
+          "title": "Plates",
+          "items": [
+            "Peameal Plate",
+            "Smoked Meat Plate",
+            "Porchetta Plate",
+            "Philly Cheesesteak Plate",
+            "Jerk Chicken Meal"
+          ]
+        }
+      ],
+      "daysOpen": [
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ]
+    },
+    {
+      "name": "Rancho Relaxo",
+      "categories": [
+        {
+          "title": "Tacos",
+          "items": [
+            "Tacos - Famous Fried Fish",
+            "Tacos - Pulled Pork",
+            "Tacos - Fried Shrimp",
+            "Tacos - Crispy Cauliflower"
+          ]
+        },
+        {
+          "title": "Quesadillas",
+          "items": [
+            "Quesadillas - Rancho Chicken",
+            "Quesadillas - Pulled Pork",
+            "Quesadillas - Portobello Mushroom",
+            "Quesadillas - Veggies"
+          ]
+        }
+      ],
+      "daysOpen": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ]
+    }
+  ]
+}
