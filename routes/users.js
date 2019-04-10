@@ -50,7 +50,6 @@ router.get("/test", function(req, res, next) {
   res.json({ dt });
 });
 
-//console.log(db);
 router.get("/scrape", async (req, res, next) => {
   console.log("scraping!!");
   const restaurants = await Promise.all([
@@ -82,6 +81,9 @@ router.get("/slack", async (req, res, next) => {
   res.json({ items });
 });
 
-router.post("/slack", async (req, res, next) => {});
+router.post("/slack", async (req, res, next) => {
+  console.log(req.body);
+  res.sendStatus(200);
+});
 
 module.exports = router;
