@@ -44,7 +44,7 @@ exports.saveMenu = async (req, res, next) => {
   res.json({ restaurants });
 };
 
-exports.slackItems = async (req, res, next) => {
+const getItemsForSlack = () => {
   //1. check what day of the week it is
   const dayOfWeek = getStringDate(new Date().getDay());
   //2. grab restaurants that are open today
@@ -52,10 +52,24 @@ exports.slackItems = async (req, res, next) => {
   openRestaurants = findOpenRestaurants(openRestaurants, dayOfWeek);
   //3. pick random items to suggest
   let items = returnItemsForSuggestion(openRestaurants);
+  return items;
+};
+
+exports.slackItems = async (req, res, next) => {
+  const items = getItemsForSlack();
   res.json({ items });
 };
 
 exports.receiveCommand = async (req, res, next) => {
   console.log(req.body);
-  res.sendStatus(200);
+  const items = getItemsForSlack();
+  const index = getRandomIndex(0, 1);
+  console.log(index);
+  let lunchData = {
+    response_type: "in_channel",
+    text: items[index]
+  };
+
+  res.status(200).send(lunchData);
+  //  res.sendStatus(200);
 };

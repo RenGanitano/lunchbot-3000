@@ -37,7 +37,9 @@ exports.getStringDate = id => {
 };
 
 exports.getRandomIndex = (min, max) => {
-  return Math.floor(Math.random() * (max - min) + min);
+  const rn = Math.floor(Math.random() * (max - min + 1) + min);
+  console.log(rn);
+  return rn;
 };
 
 exports.findOpenRestaurants = (restaurants, dayOfWeek) => {
