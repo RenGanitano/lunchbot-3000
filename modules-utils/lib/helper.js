@@ -48,16 +48,15 @@ exports.findOpenRestaurants = (restaurants, dayOfWeek) => {
 
 exports.returnItemsForSuggestion = restaurants => {
   const items = [];
-
   restaurants.forEach(function(rest, index) {
     const catMax = rest.categories.length;
-    const catIndex = getRandomIndex(0, catMax);
+    const catIndex = exports.getRandomIndex(0, catMax);
     //console.log(catIndex);
     const cat = rest.categories[catIndex];
     //console.log(cat);
     const itemsMax = rest.categories[catIndex].items.length;
 
-    const itemIndex = getRandomIndex(0, itemsMax);
+    const itemIndex = exports.getRandomIndex(0, itemsMax);
     let item = rest.categories[catIndex].items[itemIndex];
     item = `${item} from ${rest.name}`;
     items.push(item);

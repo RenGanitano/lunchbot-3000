@@ -5,8 +5,7 @@ const {
   getPigCameHomeMenu,
   getRanchoCameHomeMenu
 } = require("../modules-utils/lib/scraper");
-// const db = require("../modules-utils/lib/db");
-const { initDB } = require("../modules-utils/lib/db");
+const { db } = require("../modules-utils/lib/db");
 const {
   getStringDate,
   daysOfWeek,
@@ -61,34 +60,25 @@ router.get("/scrape", async (req, res, next) => {
   res.json({ restaurants });
 });
 
-initDB().then(async db => {
-  router.get("/save", async (req, res, next) => {
-    console.log("scraping!!");
-    const restaurants = await Promise.all([
-      getPigCameHomeMenu(pigFoodora),
-      getRanchoCameHomeMenu(tacoFoodora)
-    ]);
-    console.log(db);
-    db.set("restaurants", restaurants).write();
-    res.json({ restaurants });
-  });
+router.get("/save", async (req, res, next) => {
+  console.log("scraping!!");
+  const restaurants = await Promise.all([
+    getPigCameHomeMenu(pigFoodora),
+    getRanchoCameHomeMenu(tacoFoodora)
+  ]);
+  //commented out code will write to db.json file.
+  // db.set("restaurants", restaurants).write();
+  res.json({ restaurants });
 });
 
 router.get("/slack", async (req, res, next) => {
-  //TO DO
   //1. check what day of the week it is
   const dayOfWeek = getStringDate(new Date().getDay());
   //2. grab restaurants that are open today
-  var openRestaurants = [];
-  initDB().then(db => {
-    openRestaurants.push(...db.get("restaurants").value());
-    //console.log(openRestaurants);
-  });
-  console.log(openRestaurants);
+  let openRestaurants = db.get("restaurants").value();
   openRestaurants = findOpenRestaurants(openRestaurants, dayOfWeek);
   //3. pick random items to suggest
   let items = returnItemsForSuggestion(openRestaurants);
-  //return them
   res.json({ items });
 });
 
