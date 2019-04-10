@@ -22,10 +22,7 @@ const pig = "https://www.whenthepigcamehome.ca/menu";
 
 /* GET users listing. */
 router.get("/", function(req, res, next) {
-  console.log("test");
   let token = "0bEIhpPa5Bx3eXTQbUXbnfG8";
-
-  const dt = getStringDate(new Date().getDay());
   if (req.query.token === token) {
     let lunchData = {
       response_type: "in_channel",
@@ -38,52 +35,9 @@ router.get("/", function(req, res, next) {
     };
 
     res.setHeader("Content-Type", "application/json");
-    res.send({ dt });
   } else {
     res.status(403).end();
   }
-});
-
-router.get("/test", function(req, res, next) {
-  console.log("test");
-  const dt = getStringDate(new Date().getDay());
-  res.json({ dt });
-});
-
-router.get("/scrape", async (req, res, next) => {
-  console.log("scraping!!");
-  const restaurants = await Promise.all([
-    getPigCameHomeMenu(pigFoodora),
-    getRanchoCameHomeMenu(tacoFoodora)
-  ]);
-  res.json({ restaurants });
-});
-
-router.get("/save", async (req, res, next) => {
-  console.log("scraping!!");
-  const restaurants = await Promise.all([
-    getPigCameHomeMenu(pigFoodora),
-    getRanchoCameHomeMenu(tacoFoodora)
-  ]);
-  //commented out code will write to db.json file.
-  // db.set("restaurants", restaurants).write();
-  res.json({ restaurants });
-});
-
-router.get("/slack", async (req, res, next) => {
-  //1. check what day of the week it is
-  const dayOfWeek = getStringDate(new Date().getDay());
-  //2. grab restaurants that are open today
-  let openRestaurants = db.get("restaurants").value();
-  openRestaurants = findOpenRestaurants(openRestaurants, dayOfWeek);
-  //3. pick random items to suggest
-  let items = returnItemsForSuggestion(openRestaurants);
-  res.json({ items });
-});
-
-router.post("/slack", async (req, res, next) => {
-  console.log(req.body);
-  res.sendStatus(200);
 });
 
 module.exports = router;
