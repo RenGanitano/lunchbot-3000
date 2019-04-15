@@ -37,9 +37,7 @@ exports.getStringDate = id => {
 };
 
 exports.getRandomIndex = (min, max) => {
-  console.log(`min: ${min} max: ${max}`);
   const rn = Math.floor(Math.random() * (max - min + 1)) + min;
-  console.log(rn);
   return rn;
 };
 
@@ -52,14 +50,13 @@ exports.findOpenRestaurants = (restaurants, dayOfWeek) => {
 exports.returnItemsForSuggestion = restaurants => {
   const items = [];
   restaurants.forEach(function(rest, index) {
-    const catMax = rest.categories.length;
-
-    const catIndex = exports.getRandomIndex(0, catMax - 1);
-    //console.log(catIndex);
+    const catIndex = exports.getRandomIndex(0, rest.categories.length - 1);
     const cat = rest.categories[catIndex];
-    //console.log(cat);
-    const itemsMax = rest.categories[catIndex].items.length;
-    const itemIndex = exports.getRandomIndex(0, itemsMax - 1);
+    const itemIndex = exports.getRandomIndex(
+      0,
+      rest.categories[catIndex].items.length - 1
+    );
+
     let item = rest.categories[catIndex].items[itemIndex];
     item = `${item} from ${rest.name}`;
     items.push(item);
