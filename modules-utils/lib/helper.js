@@ -63,3 +63,23 @@ exports.returnItemsForSuggestion = restaurants => {
   });
   return items;
 };
+
+exports.returnSingleItemForSuggestion = restaurants => {
+  const restaurantIndex = exports.getRandomIndex(0, restaurants.length - 1);
+  const selectedRestaurant = restaurants[restaurantIndex];
+  console.log(selectedRestaurant);
+  const items = [];
+  // restaurants.forEach(function(rest, index) {
+  //   const catIndex = exports.getRandomIndex(0, rest.categories.length - 1);
+  //   const cat = rest.categories[catIndex];
+  //   const itemIndex = exports.getRandomIndex(
+  //     0,
+  //     rest.categories[catIndex].items.length - 1
+  //   );
+
+  //   let item = rest.categories[catIndex].items[itemIndex];
+  //   item = `${item} from ${rest.name}`;
+  //   items.push(item);
+  // });
+  return items;
+};

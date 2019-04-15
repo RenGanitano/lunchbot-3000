@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "devstart": "nodemon ./bin/www --ignore *.json",
+    "devstart": "nodemon ./bin/www --verbose --ignore '*.json'",
     "sample": "node ./load-data.js",
     "delete-sample": "node ./load-data.js --delete"
   },

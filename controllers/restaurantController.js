@@ -11,6 +11,8 @@ const {
   getRandomIndex,
   returnItemsForSuggestion
 } = require("../modules-utils/lib/helper");
+const mongoose = require("mongoose");
+const Restaurant = mongoose.model("Restaurant");
 
 const pigFoodora =
   "https://www.foodora.ca/restaurant/s1jc/when-the-pig-came-home";
@@ -35,6 +37,7 @@ exports.scrape = async (req, res, next) => {
 
 exports.saveMenu = async (req, res, next) => {
   console.log("scraping!!");
+
   const restaurants = await Promise.all([
     getPigCameHomeMenu(pigFoodora),
     getRanchoCameHomeMenu(tacoFoodora)
@@ -72,4 +75,30 @@ exports.receiveCommand = async (req, res, next) => {
 
   res.status(200).send(lunchData);
   //  res.sendStatus(200);
+};
+
+/** Mongo Methods **/
+
+const openRestaurants = async () => {
+  const dayOfWeek = getStringDate(new Date().getDay());
+  const restaurants = await Restaurant.find({ daysOpen: dayOfWeek });
+  return restaurants;
+};
+
+exports.getAll = async (req, res, next) => {
+  console.log(req.body);
+  const restaurants = await Restaurant.find();
+  res.json({ restaurants });
+};
+
+exports.getRestaurantsOpenToday = async (req, res) => {
+  const restaurants = await openRestaurants();
+  res.json({ restaurants });
+};
+
+exports.recommendMenuItem = async (req, res) => {
+  console.log("test");
+  const restaurants = await openRestaurants();
+  let items = returnItemsForSuggestion(restaurants);
+  res.json({ items });
 };
