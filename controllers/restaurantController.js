@@ -65,9 +65,9 @@ exports.slackItems = async (req, res, next) => {
 
 exports.receiveCommand = async (req, res, next) => {
   console.log(req.body);
-  const items = getItemsForSlack();
-  const index = getRandomIndex(0, 1);
-  console.log("index item " + index);
+  const restaurants = await openRestaurants();
+  let items = returnItemsForSuggestion(restaurants);
+  const index = getRandomIndex(0, items.length - 1);
   let lunchData = {
     response_type: "in_channel",
     text: items[index]
