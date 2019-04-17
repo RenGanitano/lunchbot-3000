@@ -30,7 +30,8 @@
         "Wednesday",
         "Thursday",
         "Friday",
-        "Saturday"
+        "Saturday",
+        "Sunday"
       ]
     },
     {
@@ -60,7 +61,39 @@
         "Tuesday",
         "Wednesday",
         "Thursday",
-        "Friday"
+        "Friday",
+        "Saturday"
+      ]
+    },
+    {
+      "name": "Baguette & Co.",
+      "categories": [
+        {
+          "title": "Baguettes",
+          "items": [
+            "Baguette - Banh Mi",
+            "Baguette - The Club",
+            "Baguette - The Southern",
+            "Baguette - Seoul Food",
+            "Baguette - French Dip"
+          ]
+        },
+        {
+          "title": "Salads",
+          "items": [
+            "Salad - Greens & Grains",
+            "Salad - Peach & Feta",
+            "Salad - Market Salad"
+          ]
+        }
+      ],
+      "daysOpen": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
       ]
     }
   ]

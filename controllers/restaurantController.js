@@ -96,9 +96,23 @@ exports.getRestaurantsOpenToday = async (req, res) => {
   res.json({ restaurants });
 };
 
-exports.recommendMenuItem = async (req, res) => {
+exports.recommendMenuItems = async (req, res) => {
   console.log("test");
   const restaurants = await openRestaurants();
   let items = returnItemsForSuggestion(restaurants);
   res.json({ items });
+};
+
+exports.recommendMenuItem = async (req, res) => {
+  const restaurants = await openRestaurants();
+  let items = returnItemsForSuggestion(restaurants);
+  const index = getRandomIndex(0, items.length - 1);
+  console.log("index item " + index);
+  let lunchData = {
+    response_type: "in_channel",
+    text: items[index]
+  };
+
+  // res.status(200).send(lunchData);
+  res.json({ lunchData });
 };

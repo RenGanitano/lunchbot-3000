@@ -31,6 +31,20 @@ exports.getDaysOpen = dateRange => {
   return daysOpen;
 };
 
+exports.getDaysOpenArray = dateRange => {
+  let range = [];
+  dateRange.forEach(date => {
+    if (date.includes("-")) {
+      range = [...exports.getDaysOpen(date)];
+    } else {
+      const dayOfWeek = daysOfWeek.find(day => day.short == date.trim());
+      range.push(dayOfWeek.long);
+    }
+  });
+  console.log(range);
+  return range;
+};
+
 exports.getStringDate = id => {
   const dayOfWeek = daysOfWeek.find(day => day.id == id);
   return dayOfWeek.long;
