@@ -22,6 +22,7 @@ const tacoFoodora = "https://www.foodora.ca/chain/cs4gd/rancho-relaxo";
 const pig = "https://www.whenthepigcamehome.ca/menu";
 
 const tuckshop = "https://tuckshopkitchen.ca/menu-3/";
+const tuckshopDaysOpen = "https://tuckshopkitchen.ca/";
 
 exports.test = function(req, res, next) {
   console.log("test");
@@ -30,9 +31,8 @@ exports.test = function(req, res, next) {
 };
 
 exports.tuck = async (req, res, next) => {
-  console.log("tuck!");
-  const tuck = await getTuckShopMenu(tuckshop);
-  res.json({ tuck });
+  const menu = await getTuckShopMenu(tuckshop, tuckshopDaysOpen);
+  res.json({ menu });
 };
 
 exports.scrape = async (req, res, next) => {
@@ -121,7 +121,6 @@ exports.recommendMenuItem = async (req, res) => {
     response_type: "in_channel",
     text: items[index]
   };
-
   // res.status(200).send(lunchData);
   res.json({ lunchData });
 };

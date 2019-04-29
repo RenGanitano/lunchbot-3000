@@ -16,7 +16,7 @@ exports.isToday = () => {
 };
 
 //parses string such as "Mon - Fri" and returns array of days open, in long format.
-exports.getDaysOpen = dateRange => {
+exports.getDaysOpenFromShortForm = dateRange => {
   // matches either "Mon-Fri" or "Mon - Fri"
   const dates = dateRange.split(/s?-s?/);
 
@@ -31,17 +31,47 @@ exports.getDaysOpen = dateRange => {
   return daysOpen;
 };
 
-exports.getDaysOpenArray = dateRange => {
+//parses string such as "Monday - Friday" and returns array of days open, in long format.
+exports.getDaysOpenFromLongForm = dateRange => {
+  // matches either "Mon-Fri" or "Mon - Fri"
+  const dates = dateRange.split(/s?-s?/);
+
+  //trim excess whitespace before finding index
+  const startIndex = daysOfWeek.findIndex(day => day.long == dates[0].trim());
+  const endIndex = daysOfWeek.findIndex(day => day.long == dates[1].trim());
+
+  const daysOpen = [];
+  for (let i = startIndex; i <= endIndex; i++) {
+    daysOpen.push(daysOfWeek[i].long);
+  }
+  return daysOpen;
+};
+
+exports.getDaysOpenArrayShortForm = dateRange => {
   let range = [];
   dateRange.forEach(date => {
     if (date.includes("-")) {
-      range = [...exports.getDaysOpen(date)];
+      range = [...exports.getDaysOpenFromShortForm(date)];
     } else {
       const dayOfWeek = daysOfWeek.find(day => day.short == date.trim());
       range.push(dayOfWeek.long);
     }
   });
   console.log(range);
+  return range;
+};
+
+exports.getDaysOpenArrayLongForm = dateRange => {
+  let range = [];
+  dateRange.forEach(date => {
+    if (date.includes("-")) {
+      range = [...exports.getDaysOpenFromLongForm(date)];
+    } else {
+      const dayOfWeek = daysOfWeek.find(day => day.long == date.trim());
+      range.push(dayOfWeek.long);
+    }
+  });
+  // console.log(range);
   return range;
 };
 

@@ -6,7 +6,8 @@ const {
   getHTML,
   getPigCameHomeMenu,
   getRanchoCameHomeMenu,
-  getBaguetteMenu
+  getBaguetteMenu,
+  getTuckShopMenu
 } = require("./modules-utils/lib/scraper");
 const { db } = require("./modules-utils/lib/db");
 const {
@@ -22,6 +23,9 @@ const pigFoodora =
 
 const tacoFoodora = "https://www.foodora.ca/chain/cs4gd/rancho-relaxo";
 const baguetteFoodora = "https://www.foodora.ca/restaurant/s5rp/baguette-co";
+const tuckshop = "https://tuckshopkitchen.ca/menu-3/";
+const tuckshopDaysOpen = "https://tuckshopkitchen.ca/";
+
 mongoose.connect(process.env.DATABASE_URL);
 mongoose.Promise = global.Promise; // Tell Mongoose to use ES6 promises
 const Restaurant = require("./models/Restaurant");
@@ -31,7 +35,8 @@ async function saveMenu() {
   const restaurants = await Promise.all([
     getPigCameHomeMenu(pigFoodora),
     getRanchoCameHomeMenu(tacoFoodora),
-    getBaguetteMenu(baguetteFoodora)
+    getBaguetteMenu(baguetteFoodora),
+    getTuckShopMenu(tuckshop, tuckshopDaysOpen)
   ]);
   //commented out code will write to db.json file.
   db.set("restaurants", restaurants).write();

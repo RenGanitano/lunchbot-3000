@@ -1,34 +1,50 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
-const { getDaysOpen, isToday, getDaysOpenArray } = require("./helper");
+const {
+  getDaysOpenArrayLongForm,
+  isToday,
+  getDaysOpenArrayShortForm
+} = require("./helper");
 
 async function getHTML(url) {
   const { data: html } = await axios.get(url);
   return html;
 }
 
-exports.getMenuItemFromPigCameHome = async html => {
-  //load up cheerio
+// exports.getMenuItemFromPigCameHome = async html => {
+//   //load up cheerio
+//   const $ = cheerio.load(html);
+//   const items = $("#block-yui_3_17_2_15_1479102197363_4481 h3 > strong");
+//   const menuItems = [];
+//   items.each(function(i, elem) {
+//     menuItems[i] = $(this).text();
+//   });
+//   return menuItems;
+// };
+
+exports.getOpenDaysForTuckShop = async html => {
   const $ = cheerio.load(html);
-  const items = $("#block-yui_3_17_2_15_1479102197363_4481 h3 > strong");
-  const menuItems = [];
-  items.each(function(i, elem) {
-    menuItems[i] = $(this).text();
+  const daysOfWeek = [];
+  $(".hours-title").each(function(i, elem) {
+    let days = $(this)
+      .text()
+      .trim()
+      .split(" – ");
+    days.forEach(day => daysOfWeek.push(day));
   });
-  return menuItems;
+  // console.log(daysOfWeek);
+
+  const daysOpen = getDaysOpenArrayLongForm(daysOfWeek);
+  return daysOpen;
 };
 
 exports.getItemsFromTuckShop = async html => {
-  //ul.menu-categories
-  //document.querySelector("#content > div > ul > li:nth-child(1) > div > h1") h1.menu-cat
   const $ = cheerio.load(html);
-  // console.log($);
   const restaurantTitle = "Tuck Shop Kitchen";
   const menu = { name: restaurantTitle, categories: [] };
 
   const menuCategories = $(".menu-categories > li");
-  //console.log(menuCategories);
   menuCategories.each(function(i, cat) {
     let categoryTitle = $(this)
       .find("h1")
@@ -47,20 +63,8 @@ exports.getItemsFromTuckShop = async html => {
       category["items"].push(menuItem);
     });
     menu["categories"].push(category);
-    // console.log($(this).find("h1").innerHTML);
-    // const title = $(this).find($(".menu-cat")).innerHTML;
-    // console.log(title);
   });
-  console.log(menu);
-  // const menuCategories = Array.from($(".menu-categories > li"));
-  // console.log(menuCategories);
-  // menuCategories.forEach(function(category, i) {
-  //   console.log($(this).find("h1").innerHTML);
-  //   // const title = $(this).find($(".menu-cat")).innerHTML;
-  //   // console.log(title);
-  // });
   return menu;
-  //const categories = Array.from(document.querySelectorAll("h1.menu-cat"));
 };
 
 exports.getItemsFromFoodora = async html => {
@@ -113,7 +117,7 @@ exports.getItemsFromFoodora = async html => {
     .split(",");
   days = days.map(day => day.trim()).filter(day => day != "");
 
-  const daysOpen = getDaysOpenArray(days);
+  const daysOpen = getDaysOpenArrayShortForm(days);
   menu["daysOpen"] = daysOpen;
   return menu;
 };
@@ -138,10 +142,13 @@ exports.getBaguetteMenu = async url => {
   return menu;
 };
 
-exports.getTuckShopMenu = async url => {
+exports.getTuckShopMenu = async (url, hoursUrl) => {
   const html = await getHTML(url);
-  const tuckMenu = await exports.getItemsFromTuckShop(html);
-  return tuckMenu;
+  const hoursHTML = await getHTML(hoursUrl);
+  const menu = await exports.getItemsFromTuckShop(html);
+  const tuckHours = await exports.getOpenDaysForTuckShop(hoursHTML);
+  menu["daysOpen"] = tuckHours;
+  return menu;
 };
 
 //removes items such as "Choice of 3" and strips out extra values on items such as Fried Fish (3) to just be Fried Fish

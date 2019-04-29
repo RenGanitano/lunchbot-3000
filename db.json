@@ -7,6 +7,7 @@
           "title": "Sandwiches",
           "items": [
             "Peameal on a Bun",
+            "Smoked Meat Sandwich",
             "Porchetta Sandwich",
             "Philly Cheesesteak Sandwich",
             "Jerk Chicken Sandwich with Slaw",
@@ -17,6 +18,7 @@
           "title": "Plates",
           "items": [
             "Peameal Plate",
+            "Smoked Meat Plate",
             "Porchetta Plate",
             "Philly Cheesesteak Plate",
             "Jerk Chicken Meal"
@@ -92,6 +94,46 @@
         "Thursday",
         "Friday",
         "Saturday"
+      ]
+    },
+    {
+      "name": "Tuck Shop Kitchen",
+      "categories": [
+        {
+          "title": "Sandwiches",
+          "items": [
+            "Tuck Burger",
+            "Tuck Royale",
+            "BLT",
+            "Roast Turkey & Apple",
+            "Miso Tofu",
+            "Peameal Bacon",
+            "Grilled Cheese",
+            "Grab 'n Go Sandwiches"
+          ]
+        },
+        {
+          "title": "Sandwich Combos",
+          "items": [
+            "Lil' Buddy Combo #1",
+            "Big Buddy Combo #2"
+          ]
+        },
+        {
+          "title": "Soups & Salads",
+          "items": [
+            "Caesar Salad",
+            "Quinoa Salad",
+            "Soup of the Day"
+          ]
+        }
+      ],
+      "daysOpen": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Saturday",
+        "Sunday"
       ]
     }
   ]
