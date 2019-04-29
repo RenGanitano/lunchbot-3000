@@ -19,6 +19,50 @@ exports.getMenuItemFromPigCameHome = async html => {
   return menuItems;
 };
 
+exports.getItemsFromTuckShop = async html => {
+  //ul.menu-categories
+  //document.querySelector("#content > div > ul > li:nth-child(1) > div > h1") h1.menu-cat
+  const $ = cheerio.load(html);
+  // console.log($);
+  const restaurantTitle = "Tuck Shop Kitchen";
+  const menu = { name: restaurantTitle, categories: [] };
+
+  const menuCategories = $(".menu-categories > li");
+  //console.log(menuCategories);
+  menuCategories.each(function(i, cat) {
+    let categoryTitle = $(this)
+      .find("h1")
+      .text();
+    categoryTitle = categoryTitle.substr(4).trim();
+    if (categoryTitle == "Sides" || categoryTitle == "Sweets") {
+      return;
+    }
+
+    const category = { title: "", items: [] };
+    category["title"] = categoryTitle;
+
+    const items = $(this).find("ul li h6");
+    items.each(function(i, item) {
+      let menuItem = $(this).text();
+      category["items"].push(menuItem);
+    });
+    menu["categories"].push(category);
+    // console.log($(this).find("h1").innerHTML);
+    // const title = $(this).find($(".menu-cat")).innerHTML;
+    // console.log(title);
+  });
+  console.log(menu);
+  // const menuCategories = Array.from($(".menu-categories > li"));
+  // console.log(menuCategories);
+  // menuCategories.forEach(function(category, i) {
+  //   console.log($(this).find("h1").innerHTML);
+  //   // const title = $(this).find($(".menu-cat")).innerHTML;
+  //   // console.log(title);
+  // });
+  return menu;
+  //const categories = Array.from(document.querySelectorAll("h1.menu-cat"));
+};
+
 exports.getItemsFromFoodora = async html => {
   //load up cheerio
   const $ = cheerio.load(html);
@@ -92,6 +136,12 @@ exports.getBaguetteMenu = async url => {
   const menu = await exports.getItemsFromFoodora(html);
   return stripBaguetteItems(menu);
   return menu;
+};
+
+exports.getTuckShopMenu = async url => {
+  const html = await getHTML(url);
+  const tuckMenu = await exports.getItemsFromTuckShop(html);
+  return tuckMenu;
 };
 
 //removes items such as "Choice of 3" and strips out extra values on items such as Fried Fish (3) to just be Fried Fish

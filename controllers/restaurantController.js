@@ -1,7 +1,8 @@
 const {
   getHTML,
   getPigCameHomeMenu,
-  getRanchoCameHomeMenu
+  getRanchoCameHomeMenu,
+  getTuckShopMenu
 } = require("../modules-utils/lib/scraper");
 const { db } = require("../modules-utils/lib/db");
 const {
@@ -20,10 +21,18 @@ const pigFoodora =
 const tacoFoodora = "https://www.foodora.ca/chain/cs4gd/rancho-relaxo";
 const pig = "https://www.whenthepigcamehome.ca/menu";
 
+const tuckshop = "https://tuckshopkitchen.ca/menu-3/";
+
 exports.test = function(req, res, next) {
   console.log("test");
   const dt = getStringDate(new Date().getDay());
   res.json({ dt });
+};
+
+exports.tuck = async (req, res, next) => {
+  console.log("tuck!");
+  const tuck = await getTuckShopMenu(tuckshop);
+  res.json({ tuck });
 };
 
 exports.scrape = async (req, res, next) => {

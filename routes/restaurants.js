@@ -7,4 +7,5 @@ router.get("/open", restaurantController.getRestaurantsOpenToday);
 router.get("/recommend", restaurantController.recommendMenuItems);
 router.get("/single", restaurantController.recommendMenuItem);
 router.post("/slack", restaurantController.receiveCommand);
+router.get("/tuck", restaurantController.tuck);
 module.exports = router;
